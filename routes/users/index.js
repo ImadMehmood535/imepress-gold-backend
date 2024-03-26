@@ -6,6 +6,7 @@ const {
   deleteUser,
   updateUser,
   loginUser,
+  changePassword,
 } = require("../../controllers/users/users.controller");
 const validateRequest = require("../../middlewares/validateRequestJoi.middleware");
 const {
@@ -13,6 +14,7 @@ const {
   updateUserSchema,
   deleteUserSchema,
   logInSchema,
+  passwordChangeUserSchema,
 } = require("../../validations/user");
 const verifyAuthentication = require("../../middlewares/Auth.middleware");
 const router = Router();
@@ -32,17 +34,21 @@ router.delete(
   validateRequest(deleteUserSchema),
   deleteUser
 );
+
+router.post("/login", validateRequest(logInSchema), loginUser);
+
 router.patch(
   "/edit",
   verifyAuthentication,
   validateRequest(updateUserSchema),
   updateUser
 );
-router.post(
-  "/login",
+
+router.patch(
+  "/change-password",
   verifyAuthentication,
-  validateRequest(logInSchema),
-  loginUser
+  validateRequest(passwordChangeUserSchema),
+  changePassword
 );
 
 module.exports = router;

@@ -4,8 +4,9 @@ const getProductsDto = (data) => {
       id: item.id,
       name: item.name,
       price: item.price,
-      desciption: item.desciption,
-      subCategory: item?.subCategory.name,
+      description: item.description,
+      subCategory: item?.subCategory?.name,
+      subCategoryId: item?.subCategoryId,
     };
   });
 };
@@ -13,10 +14,10 @@ const getProductsDto = (data) => {
 const productDto = (data) => {
   return {
     id: data.id,
-    name: data.name,
-    price: data.price,
-    desciption: data.desciption,
-    subCategory: data?.subCategory.name,
+    name: data?.name,
+    price: data?.price,
+    description: data?.description,
+    subCategory: data?.subCategory?.name,
   };
 };
 

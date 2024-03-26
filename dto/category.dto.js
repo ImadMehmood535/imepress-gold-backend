@@ -6,6 +6,17 @@ const getCategoryDto = (data) => {
     };
   });
 };
+const getCategoryAndSubCategoriesDto = (data) => {
+  return data.map((item) => {
+    return {
+      id: item.id,
+      name: item.name,
+      subCategories: item.subCategories?.map((subItem) => ({
+        name: subItem.name,
+      })),
+    };
+  });
+};
 
 const categoryDto = (data) => {
   return {
@@ -16,5 +27,6 @@ const categoryDto = (data) => {
 
 module.exports = {
   getCategoryDto,
+  getCategoryAndSubCategoriesDto,
   categoryDto,
 };

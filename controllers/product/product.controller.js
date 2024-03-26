@@ -28,7 +28,11 @@ const registerProduct = async (req, res) => {
       data: {
         ...req.body,
       },
+      include:{
+        subCategory:true
+      }
     });
+
     const response = okResponse(
       productDto(product),
       "Successfully created product"
@@ -42,7 +46,15 @@ const registerProduct = async (req, res) => {
 
 const getProducts = async (req, res) => {
   try {
-    let product = await prisma.product.findMany({});
+    let product = await prisma.product.findMany({
+      include: {
+        subCategory: {
+          select: { name: true },
+        },
+      },
+    });
+
+    console.log(product)
 
     const response = okResponse(
       getProductsDto(product),

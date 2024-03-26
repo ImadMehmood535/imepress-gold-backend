@@ -3,16 +3,16 @@ const getSubCategoriesDto = (data) => {
     return {
       id: item.id,
       name: item.name,
-      categoryName: item?.category?.name,
+      categoryName: item?.Category?.name,
     };
   });
 };
 
 const subCategoryDto = (data) => {
   return {
-    id: item.id,
-    name: item.name,
-    categoryName: item?.category?.name,
+    id: data.id,
+    name: data.name,
+    categoryName: data?.Category?.name,
   };
 };
 

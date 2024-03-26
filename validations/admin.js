@@ -28,4 +28,18 @@ const updateSchema = Joi.object({
   }),
 });
 
-module.exports = { registerSchema, updateSchema, logInSchema };
+const passwordChangeUserSchema = Joi.object({
+  query: Joi.object({}),
+  params: Joi.object({}),
+  body: Joi.object({
+    oldPassword: Joi.string().required(),
+    newPassword: Joi.string().required(),
+  }),
+});
+
+module.exports = {
+  registerSchema,
+  updateSchema,
+  logInSchema,
+  passwordChangeUserSchema,
+};

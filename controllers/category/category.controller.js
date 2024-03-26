@@ -7,7 +7,11 @@ const {
   notFound,
   deleteSuccessResponse,
 } = require("../../constants/responses");
-const { categoryDto, getCategoryDto } = require("../../dto/category.dto");
+const {
+  categoryDto,
+  getCategoryDto,
+  getCategoryAndSubCategoriesDto,
+} = require("../../dto/category.dto");
 
 const registerCateogry = async (req, res) => {
   try {
@@ -127,9 +131,38 @@ const deleteCategory = async (req, res) => {
   }
 };
 
+const categoriesAndSubCategories = async (req, res) => {
+  try {
+    let data = await prisma.category.findMany({
+      include: {
+        subCategories: {
+          select: { name: true },
+        },
+      },
+    });
+
+    if (!data) {
+      const response = notFound("Not Found");
+      return res.status(response.status.code).json(response);
+    }
+
+    console.log(data[0]?.subCategories)
+
+    const response = okResponse(
+      getCategoryAndSubCategoriesDto(data),
+      "Successfully fetched categories"
+    );
+    return res.status(response.status.code).json(response);
+  } catch (error) {
+    const response = serverErrorResponse(error.message);
+    return res.status(response.status.code).json(response);
+  }
+};
+
 module.exports = {
   registerCateogry,
   updateCategory,
   getCategory,
+  categoriesAndSubCategories,
   deleteCategory,
 };

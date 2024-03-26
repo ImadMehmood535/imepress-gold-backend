@@ -4,8 +4,8 @@ const registerSchema = Joi.object({
   query: Joi.object({}),
   params: Joi.object({}),
   body: Joi.object({
-    categoryId: Joi.number().required(),
     name: Joi.string().required(),
+    categoryId: Joi.number().required(),
   }),
 });
 

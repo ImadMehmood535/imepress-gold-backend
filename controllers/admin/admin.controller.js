@@ -103,4 +103,39 @@ const loginAdmin = async (req, res) => {
   }
 };
 
-module.exports = { registerAdmin, updateAdmin, loginAdmin };
+const changePassword = async (req, res) => {
+  try {
+    const id = Number(req.id);
+
+    const { oldPassword, newPassword } = req.body;
+
+    let admin = await prisma.admin.findUnique({
+      where: {
+        id,
+        password: oldPassword,
+      },
+    });
+
+    if (!admin) {
+      const response = unauthorizedResponse("Password not correct");
+      return res.status(response.status.code).json(response);
+    }
+
+    admin = await prisma.admin.update({
+      where: {
+        id,
+      },
+      data: {
+        password: newPassword,
+      },
+    });
+
+    const response = okResponse(null, "Successfully changed Password");
+    return res.status(response.status.code).json(response);
+  } catch (error) {
+    const response = serverErrorResponse(error.message);
+    return res.status(response.status.code).json(response);
+  }
+};
+
+module.exports = { registerAdmin, updateAdmin, loginAdmin, changePassword };

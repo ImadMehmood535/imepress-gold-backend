@@ -12,12 +12,33 @@ const {
   getCategory,
   updateCategory,
   deleteCategory,
+  categoriesAndSubCategories,
 } = require("../../controllers/category/category.controller");
+const verifyAuthentication = require("../../middlewares/Auth.middleware");
 const router = Router();
 
-router.post("/", validateRequest(registerSchema), registerCateogry);
+router.post(
+  "/",
+  verifyAuthentication,
+  validateRequest(registerSchema),
+  registerCateogry
+);
+
 router.get("/", getCategory);
-router.patch("/:id", validateRequest(updateSchema), updateCategory);
-router.delete("/:id", validateRequest(deleteSchema), deleteCategory);
+router.get("/all", categoriesAndSubCategories);
+
+router.patch(
+  "/:id",
+  verifyAuthentication,
+  validateRequest(updateSchema),
+  updateCategory
+);
+
+router.delete(
+  "/:id",
+  verifyAuthentication,
+  validateRequest(deleteSchema),
+  deleteCategory
+);
 
 module.exports = router;

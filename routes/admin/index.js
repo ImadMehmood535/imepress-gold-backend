@@ -4,11 +4,13 @@ const {
   registerAdmin,
   updateAdmin,
   loginAdmin,
+  changePassword,
 } = require("../../controllers/admin/admin.controller");
 const {
   registerSchema,
   updateSchema,
   logInSchema,
+  passwordChangeUserSchema,
 } = require("../../validations/admin");
 const verifyAuthentication = require("../../middlewares/Auth.middleware");
 const router = Router();
@@ -21,5 +23,11 @@ router.patch(
   updateAdmin
 );
 router.post("/login", validateRequest(logInSchema), loginAdmin);
+router.patch(
+  "/change-password",
+  verifyAuthentication,
+  validateRequest(passwordChangeUserSchema),
+  changePassword
+);
 
 module.exports = router;

@@ -6,11 +6,16 @@ const {
   updateSuccessResponse,
   notFound,
   deleteSuccessResponse,
+  unauthorizedResponse,
 } = require("../../constants/responses");
 const { getUserDto, userDto } = require("../../dto/user.dto");
+const TokenService = require("../../services/tokenService");
+const tokenService = new TokenService(process.env.JWT_SECRET_KEY);
 
 const registerUser = async (req, res) => {
   const userData = req.body;
+
+  console.log(userData);
 
   try {
     let user = await prisma.user.findFirst({
@@ -30,7 +35,12 @@ const registerUser = async (req, res) => {
       },
     });
 
-    const response = okResponse(userDto(user), "Successfully created user");
+    const access_token = tokenService.generateAccessToken(user.id);
+
+    const response = okResponse(
+      userDto({ user, access_token }),
+      "Successfully created user"
+    );
     return res.status(response.status.code).json(response);
   } catch (error) {
     const response = serverErrorResponse(error.message);
@@ -63,7 +73,9 @@ const updateUserByAdmin = async (req, res) => {
     });
 
     if (user) {
-      const response = updateSuccessResponse(userDto(user));
+      const access_token = tokenService.generateAccessToken(user.id);
+
+      const response = updateSuccessResponse(userDto({ user, access_token }));
       return res.status(response.status.code).json(response);
     }
 
@@ -100,7 +112,9 @@ const updateUser = async (req, res) => {
     });
 
     if (user) {
-      const response = updateSuccessResponse(userDto(user));
+      const access_token = tokenService.generateAccessToken(user.id);
+
+      const response = updateSuccessResponse(userDto({ user, access_token }));
       return res.status(response.status.code).json(response);
     }
 
@@ -111,6 +125,7 @@ const updateUser = async (req, res) => {
     return res.status(response.status.code).json(response);
   }
 };
+
 const getUsers = async (req, res) => {
   try {
     let users = await prisma.user.findMany({});
@@ -193,6 +208,41 @@ const loginUser = async (req, res) => {
   }
 };
 
+const changePassword = async (req, res) => {
+  try {
+    const id = Number(req.id);
+
+    const { oldPassword, newPassword } = req.body;
+
+    let user = await prisma.user.findUnique({
+      where: {
+        id,
+        password: oldPassword,
+      },
+    });
+
+    if (!user) {
+      const response = unauthorizedResponse("Password not correct");
+      return res.status(response.status.code).json(response);
+    }
+
+    user = await prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        password: newPassword,
+      },
+    });
+
+    const response = okResponse(null, "Successfully changed Password");
+    return res.status(response.status.code).json(response);
+  } catch (error) {
+    const response = serverErrorResponse(error.message);
+    return res.status(response.status.code).json(response);
+  }
+};
+
 module.exports = {
   registerUser,
   updateUserByAdmin,
@@ -200,4 +250,5 @@ module.exports = {
   getUsers,
   deleteUser,
   loginUser,
+  changePassword,
 };
