@@ -12,6 +12,7 @@ const {
   registerUserSchema,
   updateUserSchema,
   deleteUserSchema,
+  logInSchema,
 } = require("../../validations/user");
 const verifyAuthentication = require("../../middlewares/Auth.middleware");
 const router = Router();
