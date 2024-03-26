@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id       Int    @id @default(autoincrement())
+  name     String @unique @db.VarChar(255)
+  password String @db.VarChar(255)
+  email    String @unique @db.VarChar(255)
+}
+
+model User {
+  id          Int      @id @default(autoincrement())
+  firstName   String   @db.VarChar(255)
+  lastName    String   @db.VarChar(255)
+  phoneNumber String
+  email       String   @unique @db.VarChar(255)
+  password    String   @db.VarChar(255)
+  createdAt   DateTime @default(now()) @db.Timestamp(0)
+  updatedAt   DateTime @updatedAt
+  order       Order[]
+}
+
+model Product {
+  id            Int          @id @default(autoincrement())
+  name          String       @db.VarChar(255)
+  price         Float
+  description   String       @db.LongText
+  createdAt     DateTime     @default(now()) @db.Timestamp(0)
+  updatedAt     DateTime?    @updatedAt
+  subCategory   subCategory? @relation(fields: [subCategoryId], references: [id])
+  subCategoryId Int?
+  products      orderItem[]
+}
+
+model Category {
+  id            Int           @id @default(autoincrement())
+  name          String        @db.VarChar(255)
+  createdAt     DateTime      @default(now()) @db.Timestamp(0)
+  updatedAt     DateTime?     @updatedAt
+  subCategories subCategory[]
+}
+
+model subCategory {
+  id         Int       @id @default(autoincrement())
+  name       String    @db.VarChar(255)
+  createdAt  DateTime  @default(now()) @db.Timestamp(0)
+  updatedAt  DateTime? @updatedAt
+  Category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId Int?
+  productS   Product[]
+}
+
+model Order {
+  id         Int         @id @default(autoincrement())
+  totalPrice Float
+  createdAt  DateTime    @default(now()) @db.Timestamp(0)
+  updatedAt  DateTime?   @updatedAt
+  User       User?       @relation(fields: [userId], references: [id])
+  userId     Int?
+  orderItems orderItem[]
+}
+
+model orderItem {
+  id        Int      @id @default(autoincrement())
+  quantity  Int
+  price     Float
+  createdAt DateTime @default(now()) @db.Timestamp(0)
+  updatedAt DateTime @updatedAt
+  Order     Order?   @relation(fields: [orderId], references: [id])
+  orderId   Int?
+  Product   Product? @relation(fields: [productId], references: [id])
+  productId Int?
+}

@@ -1,0 +1,33 @@
+{
+  "name": "clicktap-ocreateo",
+  "version": "1.0.0",
+  "description": "Internal team project for project and task management ",
+  "main": "index.js",
+  "scripts": {
+    "dev": "set NODE_ENV=dev&& nodemon server.js",
+    "stage": "set NODE_ENV=stage&& nodemon server.js",
+    "qa": "set NODE_ENV=qa&& nodemon server.js",
+    "start": " node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^5.11.0",
+    "body-parse": "^0.1.0",
+    "body-parser": "^1.20.2",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.1",
+    "express-winston": "^4.2.0",
+    "helmet": "^7.1.0",
+    "joi": "^17.12.2",
+    "jsonwebtoken": "^9.0.2",
+    "nodemon": "^3.1.0",
+    "path": "^0.12.7",
+    "prisma": "^5.11.0",
+    "uuid": "^9.0.1",
+    "winston": "^3.12.0"
+  }
+}
