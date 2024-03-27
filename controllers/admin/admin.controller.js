@@ -11,7 +11,7 @@ const {
 const TokenService = require("../../services/tokenService");
 const tokenService = new TokenService(process.env.JWT_SECRET_KEY);
 
-const { adminDto } = require("../../dto/admin.dto");
+const { adminDto, adminProfileDto } = require("../../dto/admin.dto");
 
 const registerAdmin = async (req, res) => {
   const adminData = req.body;
@@ -63,7 +63,7 @@ const updateAdmin = async (req, res) => {
     });
 
     if (admin) {
-      const response = updateSuccessResponse(adminDto(admin));
+      const response = updateSuccessResponse(adminProfileDto(admin));
       return res.status(response.status.code).json(response);
     }
 
