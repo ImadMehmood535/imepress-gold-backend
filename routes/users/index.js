@@ -15,6 +15,7 @@ const {
   deleteUserSchema,
   logInSchema,
   passwordChangeUserSchema,
+  updateUserbyAdminSchema,
 } = require("../../validations/user");
 const verifyAuthentication = require("../../middlewares/Auth.middleware");
 const router = Router();
@@ -24,7 +25,7 @@ router.get("/", verifyAuthentication, getUsers);
 router.patch(
   "/",
   verifyAuthentication,
-  validateRequest(updateUserSchema),
+  validateRequest(updateUserbyAdminSchema),
   updateUserByAdmin
 );
 

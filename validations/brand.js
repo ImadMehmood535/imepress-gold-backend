@@ -5,11 +5,6 @@ const registerSchema = Joi.object({
   params: Joi.object({}),
   body: Joi.object({
     name: Joi.string().required(),
-    price: Joi.number().required(),
-    description: Joi.string().required(),
-    subCategoryId: Joi.number().required(),
-    imageUrl: Joi.string().required(),
-    brandId: Joi.number().required(),
   }),
 });
 
@@ -19,12 +14,7 @@ const updateSchema = Joi.object({
     id: Joi.number().required(),
   }),
   body: Joi.object({
-    name: Joi.string(),
-    price: Joi.number(),
-    description: Joi.string(),
-    imageUrl: Joi.string(),
-    subCategoryId: Joi.number(),
-    brandId: Joi.number(),
+    name: Joi.string().required(),
   }),
 });
 

@@ -8,6 +8,7 @@ const getUserDto = (data) => {
       phoneNumber: item.phoneNumber,
       gender: item.gender,
       date: item.createdAt,
+      imageUrl: item?.imageUrl,
     };
   });
 };
@@ -20,6 +21,7 @@ const userDto = (data) => {
     email: data.user.email,
     phoneNumber: data.user.phoneNumber,
     gender: data.user.gender,
+    imageUrl: data?.user.imageUrl,
     date: data.user.createdAt,
     token: data?.access_token,
   };

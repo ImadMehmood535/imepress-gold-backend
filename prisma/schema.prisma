@@ -24,6 +24,7 @@ model User {
   createdAt   DateTime @default(now()) @db.Timestamp(0)
   updatedAt   DateTime @updatedAt
   order       Order[]
+  imageUrl    String?
 }
 
 model Product {
@@ -36,6 +37,9 @@ model Product {
   subCategory   subCategory? @relation(fields: [subCategoryId], references: [id])
   subCategoryId Int?
   products      orderItem[]
+  imageUrl      String?
+  brand         Brand?       @relation(fields: [brandId], references: [id])
+  brandId       Int?
 }
 
 model Category {
@@ -53,7 +57,7 @@ model subCategory {
   updatedAt  DateTime? @updatedAt
   Category   Category? @relation(fields: [categoryId], references: [id])
   categoryId Int?
-  productS   Product[]
+  products   Product[]
 }
 
 model Order {
@@ -61,8 +65,8 @@ model Order {
   totalPrice Float
   createdAt  DateTime    @default(now()) @db.Timestamp(0)
   updatedAt  DateTime?   @updatedAt
-  User       User?       @relation(fields: [userId], references: [id])
-  userId     Int?
+  User       User        @relation(fields: [userId], references: [id])
+  userId     Int
   orderItems orderItem[]
 }
 
@@ -76,4 +80,10 @@ model orderItem {
   orderId   Int?
   Product   Product? @relation(fields: [productId], references: [id])
   productId Int?
+}
+
+model Brand {
+  id      Int       @id @default(autoincrement())
+  name    String
+  product Product[]
 }

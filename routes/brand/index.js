@@ -1,40 +1,41 @@
 const { Router } = require("express");
-
 const validateRequest = require("../../middlewares/validateRequestJoi.middleware");
+
+const verifyAuthentication = require("../../middlewares/Auth.middleware");
 const {
   registerSchema,
   updateSchema,
   deleteSchema,
-} = require("../../validations/product");
+} = require("../../validations/brand");
 const {
-  registerProduct,
-  getProducts,
-  updateProduct,
-  deleteProduct,
-  getSingleProduct,
-} = require("../../controllers/product/product.controller");
-const verifyAuthentication = require("../../middlewares/Auth.middleware");
+  registerBrand,
+  getBrand,
+  updateBrand,
+  deleteBrand,
+} = require("../../controllers/brand/brand.controller");
 const router = Router();
 
 router.post(
   "/",
   verifyAuthentication,
   validateRequest(registerSchema),
-  registerProduct
+  registerBrand
 );
-router.get("/", getProducts);
-router.get("/:id", getSingleProduct);
+
+router.get("/", getBrand);
+
 router.patch(
   "/:id",
   verifyAuthentication,
   validateRequest(updateSchema),
-  updateProduct
+  updateBrand
 );
+
 router.delete(
   "/:id",
   verifyAuthentication,
   validateRequest(deleteSchema),
-  deleteProduct
+  deleteBrand
 );
 
 module.exports = router;

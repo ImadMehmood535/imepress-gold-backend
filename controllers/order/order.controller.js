@@ -4,6 +4,7 @@ const {
   okResponse,
   unauthorizedResponse,
 } = require("../../constants/responses");
+const { orderDto } = require("../../dto/order.dto");
 
 const registerOrder = async (req, res) => {
   try {
@@ -32,12 +33,12 @@ const registerOrder = async (req, res) => {
       return res.status(response.status.code).json(response);
     }
 
-    let order = await prisma.order.create({
+    await prisma.order.create({
       data: {
         totalPrice: total,
         userId: Number(id),
 
-        orderItem: {
+        orderItems: {
           createMany: {
             data: orderItems.map((item) => ({
               quantity: item.quantity,
@@ -49,7 +50,7 @@ const registerOrder = async (req, res) => {
       },
     });
 
-    const response = okResponse(order, "Successfully created order");
+    const response = okResponse(null, "Successfully created order");
     return res.status(response.status.code).json(response);
   } catch (error) {
     const response = serverErrorResponse(error.message);
@@ -57,15 +58,27 @@ const registerOrder = async (req, res) => {
   }
 };
 
-const getProducts = async (req, res) => {
+const getOrders = async (req, res) => {
   try {
     let order = await prisma.order.findMany({
       include: {
-        orderItems: true,
+        orderItems: {
+          include: {
+            Product: true,
+          },
+        },
+
+        User: {
+          select: {
+            firstName: true,
+            lastName: true,
+            id: true,
+          },
+        },
       },
     });
 
-    const response = okResponse(order, "Successfully fetched products");
+    const response = okResponse(orderDto(order), "Successfully fetched orders");
     return res.status(response.status.code).json(response);
   } catch (error) {
     const response = serverErrorResponse(error.message);
@@ -75,7 +88,5 @@ const getProducts = async (req, res) => {
 
 module.exports = {
   registerOrder,
-  updateProduct,
-  getProducts,
-  deleteProduct,
+  getOrders,
 };

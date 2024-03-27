@@ -15,8 +15,6 @@ const tokenService = new TokenService(process.env.JWT_SECRET_KEY);
 const registerUser = async (req, res) => {
   const userData = req.body;
 
-  console.log(userData);
-
   try {
     let user = await prisma.user.findFirst({
       where: {

@@ -7,33 +7,29 @@ const {
   notFound,
   deleteSuccessResponse,
 } = require("../../constants/responses");
-const { productDto, getProductsDto } = require("../../dto/product.dto");
+const { brandDto, getBrandDto } = require("../../dto/brand");
 
-const registerProduct = async (req, res) => {
+const registerBrand = async (req, res) => {
   try {
     const { name } = req.body;
 
-    let product = await prisma.product.findFirst({
+    let brand = await prisma.brand.findFirst({
       where: {
         name,
       },
     });
 
-    if (product) {
+    if (brand) {
       const response = forbiddenResponse("Already Created");
       return res.status(response.status.code).json(response);
     }
 
-    product = await prisma.product.create({
+    brand = await prisma.brand.create({
       data: {
-        ...req.body,
+        name,
       },
     });
-
-    const response = okResponse(
-      productDto(product),
-      "Successfully created product"
-    );
+    const response = okResponse(brandDto(brand), "Successfully created brand");
     return res.status(response.status.code).json(response);
   } catch (error) {
     const response = serverErrorResponse(error.message);
@@ -41,22 +37,13 @@ const registerProduct = async (req, res) => {
   }
 };
 
-const getProducts = async (req, res) => {
+const getBrand = async (req, res) => {
   try {
-    let product = await prisma.product.findMany({
-      include: {
-        subCategory: {
-          select: { name: true },
-        },
-        brand: {
-          select: { name: true },
-        },
-      },
-    });
+    let brand = await prisma.brand.findMany({});
 
     const response = okResponse(
-      getProductsDto(product),
-      "Successfully fetched products"
+      getBrandDto(brand),
+      "Successfully fetched brand"
     );
     return res.status(response.status.code).json(response);
   } catch (error) {
@@ -65,32 +52,33 @@ const getProducts = async (req, res) => {
   }
 };
 
-const updateProduct = async (req, res) => {
+const updateBrand = async (req, res) => {
   try {
     const { id } = req.params;
+    const { name } = req.body;
 
-    let product = await prisma.product.findFirst({
+    let brand = await prisma.brand.findFirst({
       where: {
         id: Number(id),
       },
     });
 
-    if (!product) {
+    if (!brand) {
       const response = notFound("Not Found");
       return res.status(response.status.code).json(response);
     }
 
-    product = await prisma.product.update({
+    brand = await prisma.brand.update({
       where: {
         id: Number(id),
       },
       data: {
-        ...req.body,
+        name,
       },
     });
 
-    if (product) {
-      const response = updateSuccessResponse(productDto(product));
+    if (brand) {
+      const response = updateSuccessResponse(brandDto(brand));
       return res.status(response.status.code).json(response);
     }
 
@@ -102,69 +90,33 @@ const updateProduct = async (req, res) => {
   }
 };
 
-const deleteProduct = async (req, res) => {
+const deleteBrand = async (req, res) => {
   try {
     const { id } = req.params;
 
-    let product = await prisma.product.findFirst({
+    let brand = await prisma.brand.findFirst({
       where: {
         id: Number(id),
       },
     });
 
-    if (!product) {
+    if (!brand) {
       const response = notFound("Not Found");
       return res.status(response.status.code).json(response);
     }
 
-    product = await prisma.product.delete({
+    brand = await prisma.brand.delete({
       where: {
         id: Number(id),
       },
     });
 
-    if (product) {
-      const response = deleteSuccessResponse(productDto(product));
+    if (brand) {
+      const response = deleteSuccessResponse(brandDto(brand));
       return res.status(response.status.code).json(response);
     }
 
     const response = notFound("Not Found");
-    return res.status(response.status.code).json(response);
-  } catch (error) {
-    const response = serverErrorResponse(error.message);
-    return res.status(response.status.code).json(response);
-  }
-};
-
-const getSingleProduct = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    let product = await prisma.product.findUnique({
-      where: {
-        id: Number(id),
-      },
-      include: {
-        subCategory: {
-          select: { name: true },
-        },
-        brand: {
-          select: {
-            name: true,
-          },
-        },
-      },
-    });
-
-    if (!product) {
-      const response = notFound("Not Found");
-      return res.status(response.status.code).json(response);
-    }
-
-    const response = okResponse(
-      productDto(product),
-      "Successfully fetched product"
-    );
     return res.status(response.status.code).json(response);
   } catch (error) {
     const response = serverErrorResponse(error.message);
@@ -173,9 +125,8 @@ const getSingleProduct = async (req, res) => {
 };
 
 module.exports = {
-  registerProduct,
-  updateProduct,
-  getProducts,
-  deleteProduct,
-  getSingleProduct,
+  registerBrand,
+  getBrand,
+  updateBrand,
+  deleteBrand,
 };

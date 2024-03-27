@@ -5,8 +5,11 @@ const getProductsDto = (data) => {
       name: item.name,
       price: item.price,
       description: item.description,
-      subCategory: item?.subCategory?.name,
       subCategoryId: item?.subCategoryId,
+      brandId: item?.brandId,
+      brand: item?.brand?.name,
+      subCategory: item?.subCategory?.name,
+      imageUrl: item?.imageUrl,
     };
   });
 };
@@ -17,6 +20,10 @@ const productDto = (data) => {
     name: data?.name,
     price: data?.price,
     description: data?.description,
+    imageUrl: data?.imageUrl,
+    subCategoryId: data?.subCategoryId,
+    brandId: data?.brandId,
+    brand: data?.brand?.name,
     subCategory: data?.subCategory?.name,
   };
 };

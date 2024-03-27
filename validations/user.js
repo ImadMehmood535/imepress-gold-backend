@@ -9,6 +9,7 @@ const registerUserSchema = Joi.object({
     email: Joi.string().email().required().max(40),
     password: Joi.string().required().max(50),
     phoneNumber: Joi.string().required(),
+    imageUrl: Joi.string(),
   }),
 });
 
@@ -22,6 +23,7 @@ const updateUserbyAdminSchema = Joi.object({
     email: Joi.string().email().max(40),
     password: Joi.string().max(50),
     phoneNumber: Joi.string().max(20),
+    imageUrl: Joi.string(),
   }),
 });
 const updateUserSchema = Joi.object({
@@ -33,6 +35,7 @@ const updateUserSchema = Joi.object({
     email: Joi.string().email().max(40),
     password: Joi.string().max(50),
     phoneNumber: Joi.string().max(20),
+    imageUrl: Joi.string(),
   }),
 });
 
@@ -68,5 +71,5 @@ module.exports = {
   deleteUserSchema,
   logInSchema,
   updateUserbyAdminSchema,
-  passwordChangeUserSchema
+  passwordChangeUserSchema,
 };
