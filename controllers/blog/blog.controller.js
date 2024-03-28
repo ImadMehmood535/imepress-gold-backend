@@ -7,39 +7,29 @@ const {
   notFound,
   deleteSuccessResponse,
 } = require("../../constants/responses");
-const {
-  subCategoryDto,
-  getSubCategoriesDto,
-} = require("../../dto/subCategory.dto");
+const { blogDto, getBlogDto } = require("../../dto/blog.dto");
 
-const registerSubCategory = async (req, res) => {
+const registerBlog = async (req, res) => {
   try {
-    const { name, categoryId } = req.body;
+    const { name } = req.body;
 
-    let subCategory = await prisma.subCategory.findFirst({
+    let blog = await prisma.blog.findFirst({
       where: {
-        categoryId,
         name,
       },
     });
 
-    if (subCategory) {
+    if (blog) {
       const response = forbiddenResponse("Already Created");
       return res.status(response.status.code).json(response);
     }
 
-    subCategory = await prisma.subCategory.create({
+    blog = await prisma.blog.create({
       data: {
         ...req.body,
       },
-      include:{
-        Category:true
-      }
     });
-    const response = okResponse(
-      subCategoryDto(subCategory),
-      "Successfully created category"
-    );
+    const response = okResponse(blogDto(blog), "Successfully created blog");
     return res.status(response.status.code).json(response);
   } catch (error) {
     const response = serverErrorResponse(error.message);
@@ -47,20 +37,11 @@ const registerSubCategory = async (req, res) => {
   }
 };
 
-const getSubCategory = async (req, res) => {
+const getBlog = async (req, res) => {
   try {
-    let subCategory = await prisma.subCategory.findMany({
-      include: {
-        Category: {
-          select: { name: true },
-        },
-      },
-    });
+    let blog = await prisma.blog.findMany({});
 
-    const response = okResponse(
-      getSubCategoriesDto(subCategory),
-      "Successfully fetched subCategories"
-    );
+    const response = okResponse(getBlogDto(blog), "Successfully fetched blog");
     return res.status(response.status.code).json(response);
   } catch (error) {
     const response = serverErrorResponse(error.message);
@@ -68,22 +49,23 @@ const getSubCategory = async (req, res) => {
   }
 };
 
-const updateSubCategory = async (req, res) => {
+const updateBlog = async (req, res) => {
   try {
     const { id } = req.params;
+    const { name } = req.body;
 
-    let subCategory = await prisma.subCategory.findFirst({
+    let blog = await prisma.blog.findFirst({
       where: {
         id: Number(id),
       },
     });
 
-    if (!subCategory) {
+    if (!blog) {
       const response = notFound("Not Found");
       return res.status(response.status.code).json(response);
     }
 
-    subCategory = await prisma.subCategory.update({
+    blog = await prisma.blog.update({
       where: {
         id: Number(id),
       },
@@ -92,8 +74,8 @@ const updateSubCategory = async (req, res) => {
       },
     });
 
-    if (subCategory) {
-      const response = updateSuccessResponse(subCategoryDto(subCategory));
+    if (blog) {
+      const response = updateSuccessResponse(blogDto(blog));
       return res.status(response.status.code).json(response);
     }
 
@@ -105,29 +87,29 @@ const updateSubCategory = async (req, res) => {
   }
 };
 
-const deleteSubCategory = async (req, res) => {
+const deleteBlog = async (req, res) => {
   try {
     const { id } = req.params;
 
-    let subCategory = await prisma.subCategory.findFirst({
+    let blog = await prisma.blog.findFirst({
       where: {
         id: Number(id),
       },
     });
 
-    if (!subCategory) {
+    if (!blog) {
       const response = notFound("Not Found");
       return res.status(response.status.code).json(response);
     }
 
-    subCategory = await prisma.subCategory.delete({
+    blog = await prisma.blog.delete({
       where: {
         id: Number(id),
       },
     });
 
-    if (subCategory) {
-      const response = deleteSuccessResponse(subCategoryDto(subCategory));
+    if (blog) {
+      const response = deleteSuccessResponse(blogDto(blog));
       return res.status(response.status.code).json(response);
     }
 
@@ -140,8 +122,8 @@ const deleteSubCategory = async (req, res) => {
 };
 
 module.exports = {
-  registerSubCategory,
-  updateSubCategory,
-  getSubCategory,
-  deleteSubCategory,
+  registerBlog,
+  updateBlog,
+  getBlog,
+  deleteBlog,
 };

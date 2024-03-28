@@ -10,6 +10,7 @@ const productRoutes = require("./product");
 const subCategoryRoutes = require("./subCategory");
 const orderRoutes = require("./order");
 const brandRoutes = require("./brand");
+const blogRoutes = require("./blog")
 
 router.post("/upload", uploadMiddleware, uploadImage);
 router.use("/admin", adminRoutes);
@@ -19,5 +20,6 @@ router.use("/sub-category", subCategoryRoutes);
 router.use("/product", productRoutes);
 router.use("/order", orderRoutes);
 router.use("/brand", brandRoutes);
+router.use("/blog", blogRoutes);
 
 module.exports = router;

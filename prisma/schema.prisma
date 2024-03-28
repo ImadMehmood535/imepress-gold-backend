@@ -83,7 +83,20 @@ model orderItem {
 }
 
 model Brand {
-  id      Int       @id @default(autoincrement())
-  name    String
-  product Product[]
+  id        Int       @id @default(autoincrement())
+  name      String
+  createdAt DateTime? @default(now()) @db.Timestamp(0)
+  updatedAt DateTime? @updatedAt
+  product   Product[]
 }
+
+model Blog {
+  id          Int       @id @default(autoincrement())
+  name        String
+  imageUrl    String
+  description String    @db.LongText
+  createdAt   DateTime @default(now()) @db.Timestamp(0)
+  updatedAt   DateTime? @updatedAt
+}
+
+
