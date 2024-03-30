@@ -1,5 +1,7 @@
 const orderDto = (data) => {
+  let count = 1;
   return data.map((order) => ({
+    no: count++,
     id: order?.id,
     totalPrice: order?.totalPrice,
     date: order?.createdAt,
@@ -10,10 +12,13 @@ const orderDto = (data) => {
       Product: {
         name: orderItem?.Product?.name,
         price: orderItem?.Product?.price,
+        imageUrl : orderItem?.Product?.imageUrl
       },
     })),
     User: {
-      name: order?.User?.firstName + "" + order?.User?.lastName,
+      name: order?.User?.firstName + " " + order?.User?.lastName, 
+      email: order?.User?.email,
+      phoneNumber: order?.User?.phoneNumber,
       id: order?.User?.id,
     },
   }));

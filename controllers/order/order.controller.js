@@ -72,6 +72,8 @@ const getOrders = async (req, res) => {
           select: {
             firstName: true,
             lastName: true,
+            email: true,
+            phoneNumber: true,
             id: true,
           },
         },

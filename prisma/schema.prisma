@@ -25,6 +25,7 @@ model User {
   updatedAt   DateTime @updatedAt
   order       Order[]
   imageUrl    String?
+  isBlocked   Boolean? @default(false)
 }
 
 model Product {
@@ -95,8 +96,6 @@ model Blog {
   name        String
   imageUrl    String
   description String    @db.LongText
-  createdAt   DateTime @default(now()) @db.Timestamp(0)
+  createdAt   DateTime  @default(now()) @db.Timestamp(0)
   updatedAt   DateTime? @updatedAt
 }
-
-

@@ -1,5 +1,5 @@
 const cloudinary = require("../configs/cloudinary");
-const { okResponse, serverErrorResponse } = require("../constants/responses");
+const { okResponse, serverErrorResponse, badRequestResponse } = require("../constants/responses");
 const { logger } = require("../configs/logger");
 
 const uploadImage = async (req, res) => {

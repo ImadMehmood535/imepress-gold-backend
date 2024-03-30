@@ -24,6 +24,7 @@ const updateUserbyAdminSchema = Joi.object({
     password: Joi.string().max(50),
     phoneNumber: Joi.string().max(20),
     imageUrl: Joi.string(),
+    isBlocked : Joi.boolean()
   }),
 });
 const updateUserSchema = Joi.object({

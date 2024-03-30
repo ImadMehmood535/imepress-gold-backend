@@ -46,13 +46,15 @@ const getProducts = async (req, res) => {
     let product = await prisma.product.findMany({
       include: {
         subCategory: {
-          select: { name: true },
+          include: { Category: true },
         },
         brand: {
           select: { name: true },
         },
       },
     });
+
+    console.log(product);
 
     const response = okResponse(
       getProductsDto(product),
@@ -146,7 +148,7 @@ const getSingleProduct = async (req, res) => {
       },
       include: {
         subCategory: {
-          select: { name: true },
+          include: { Category: true },
         },
         brand: {
           select: {

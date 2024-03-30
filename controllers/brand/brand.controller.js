@@ -7,7 +7,7 @@ const {
   notFound,
   deleteSuccessResponse,
 } = require("../../constants/responses");
-const { brandDto, getBrandDto } = require("../../dto/brand");
+const { brandDto, getBrandDto } = require("../../dto/brand.dto");
 
 const registerBrand = async (req, res) => {
   try {

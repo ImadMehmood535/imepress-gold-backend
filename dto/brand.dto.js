@@ -1,7 +1,9 @@
 const getBrandDto = (data) => {
-  console.log(data);
+  let count = 1;
+
   return data.map((item) => {
     return {
+      no: count++,
       id: item.id,
       name: item.name,
       date: item.createdAt,
