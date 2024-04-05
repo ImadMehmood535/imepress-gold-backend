@@ -48,11 +48,27 @@ const getBlog = async (req, res) => {
     return res.status(response.status.code).json(response);
   }
 };
+const getSingleBlogs = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    let blog = await prisma.blog.findFirst({
+      where: {
+        slug: slug,
+      },
+    });
+
+    const response = okResponse(blogDto(blog), "Successfully fetched blog");
+    return res.status(response.status.code).json(response);
+  } catch (error) {
+    console.log(error, "error");
+    const response = serverErrorResponse(error.message);
+    return res.status(response.status.code).json(response);
+  }
+};
 
 const updateBlog = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name } = req.body;
 
     let blog = await prisma.blog.findFirst({
       where: {
@@ -126,4 +142,5 @@ module.exports = {
   updateBlog,
   getBlog,
   deleteBlog,
+  getSingleBlogs,
 };

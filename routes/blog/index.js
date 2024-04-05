@@ -13,6 +13,7 @@ const {
   getBlog,
   updateBlog,
   deleteBlog,
+  getSingleBlogs,
 } = require("../../controllers/blog/blog.controller");
 const router = Router();
 
@@ -24,6 +25,8 @@ router.post(
 );
 
 router.get("/", getBlog);
+
+router.get("/:slug" , getSingleBlogs)
 
 router.patch(
   "/:id",

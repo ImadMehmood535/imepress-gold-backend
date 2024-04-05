@@ -7,6 +7,8 @@ const registerSchema = Joi.object({
     name: Joi.string().required(),
     imageUrl: Joi.string().required(),
     description: Joi.string().required(),
+    short_description: Joi.string().required(),
+    slug: Joi.string().required(),
   }),
 });
 
@@ -19,6 +21,8 @@ const updateSchema = Joi.object({
     name: Joi.string(),
     imageUrl: Joi.string(),
     description: Joi.string(),
+    short_description: Joi.string(),
+    slug: Joi.string(),
   }),
 });
 

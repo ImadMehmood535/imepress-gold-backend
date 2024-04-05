@@ -92,10 +92,12 @@ model Brand {
 }
 
 model Blog {
-  id          Int       @id @default(autoincrement())
-  name        String
-  imageUrl    String
-  description String    @db.LongText
-  createdAt   DateTime  @default(now()) @db.Timestamp(0)
-  updatedAt   DateTime? @updatedAt
+  id                Int       @id @default(autoincrement())
+  name              String
+  imageUrl          String
+  slug              String?
+  short_description String?
+  description       String    @db.LongText
+  createdAt         DateTime  @default(now()) @db.Timestamp(0)
+  updatedAt         DateTime? @updatedAt
 }
