@@ -12,6 +12,8 @@ const {
   updateProduct,
   deleteProduct,
   getSingleProduct,
+  getProductsQuery,
+  getProductsByCategory,
 } = require("../../controllers/product/product.controller");
 const verifyAuthentication = require("../../middlewares/Auth.middleware");
 const router = Router();
@@ -22,8 +24,10 @@ router.post(
   validateRequest(registerSchema),
   registerProduct
 );
+router.get("/query", getProductsQuery);
 router.get("/", getProducts);
-router.get("/:id", getSingleProduct);
+router.get("/by-category" , getProductsByCategory)
+router.get("/:slug", getSingleProduct);
 router.patch(
   "/:id",
   verifyAuthentication,

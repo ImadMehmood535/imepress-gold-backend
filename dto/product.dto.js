@@ -15,6 +15,13 @@ const getProductsDto = (data) => {
       categoryId: item?.subCategory?.categoryId,
       category: item?.subCategory?.Category?.name,
       imageUrl: item?.imageUrl,
+      tags: {
+        featured: item.isFeatured,
+        sale: item?.isSale,
+        new: item?.isNew,
+      },
+      discount: item?.discount,
+      slug: item?.slug,
     };
   });
 };
@@ -26,6 +33,13 @@ const productDto = (data) => {
     price: data?.price,
     description: data?.description,
     imageUrl: data?.imageUrl,
+    isFeatured: data.isFeatured,
+    isSale: data?.isSale,
+    discount: data?.discount,
+    slug: data?.slug,
+    isNew: data?.isNew,
+    categoryId: data?.subCategory?.categoryId,
+    category: data?.subCategory?.Category?.name,
     subCategoryId: data?.subCategoryId,
     brandId: data?.brandId,
     brand: data?.brand?.name,

@@ -41,6 +41,37 @@ const registerProduct = async (req, res) => {
   }
 };
 
+const getProductsQuery = async (req, res) => {
+  const query = req.query.type;
+
+  try {
+    let product = await prisma.product.findMany({
+      include: {
+        subCategory: {
+          include: { Category: true },
+        },
+        brand: {
+          select: { name: true },
+        },
+      },
+
+      where: {
+        [query]: true,
+      },
+    });
+
+    const response = okResponse(
+      getProductsDto(product),
+      "Successfully fetched products"
+    );
+    return res.status(response.status.code).json(response);
+  } catch (error) {
+    console.log(error);
+    const response = serverErrorResponse(error.message);
+    return res.status(response.status.code).json(response);
+  }
+};
+
 const getProducts = async (req, res) => {
   try {
     let product = await prisma.product.findMany({
@@ -54,14 +85,44 @@ const getProducts = async (req, res) => {
       },
     });
 
-    console.log(product);
-
     const response = okResponse(
       getProductsDto(product),
       "Successfully fetched products"
     );
     return res.status(response.status.code).json(response);
   } catch (error) {
+    console.log(error);
+    const response = serverErrorResponse(error.message);
+    return res.status(response.status.code).json(response);
+  }
+};
+
+const getProductsByCategory = async (req, res) => {
+  const { categoryId } = req.query;
+  try {
+    let products = await prisma.product.findMany({
+      where: {
+        subCategory: {
+          categoryId: Number(categoryId),
+        },
+      },
+      include: {
+        subCategory: {
+          include: { Category: true },
+        },
+        brand: {
+          select: { name: true },
+        },
+      },
+    });
+
+    const response = okResponse(
+      getProductsDto(products),
+      "Successfully fetched products"
+    );
+    return res.status(response.status.code).json(response);
+  } catch (error) {
+    console.log(error);
     const response = serverErrorResponse(error.message);
     return res.status(response.status.code).json(response);
   }
@@ -140,11 +201,11 @@ const deleteProduct = async (req, res) => {
 
 const getSingleProduct = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { slug } = req.params;
 
-    let product = await prisma.product.findUnique({
+    let product = await prisma.product.findFirst({
       where: {
-        id: Number(id),
+        slug: slug,
       },
       include: {
         subCategory: {
@@ -177,7 +238,9 @@ const getSingleProduct = async (req, res) => {
 module.exports = {
   registerProduct,
   updateProduct,
-  getProducts,
+  getProductsQuery,
   deleteProduct,
   getSingleProduct,
+  getProducts,
+  getProductsByCategory,
 };

@@ -5,6 +5,7 @@ const registerSchema = Joi.object({
   params: Joi.object({}),
   body: Joi.object({
     name: Joi.string().required(),
+    imageUrl: Joi.string().required(),
   }),
 });
 
@@ -15,6 +16,7 @@ const updateSchema = Joi.object({
   }),
   body: Joi.object({
     name: Joi.string().required(),
+    imageUrl: Joi.string(),
   }),
 });
 

@@ -5,7 +5,9 @@ const getCategoryDto = (data) => {
       no: count++,
       id: item.id,
       name: item.name,
+      imageUrl: item?.imageUrl,
       date: item?.createdAt,
+      subCategoriesQuanitity: item?._count.subCategories,
     };
   });
 };
@@ -18,9 +20,11 @@ const getCategoryAndSubCategoriesDto = (data) => {
       no: count++,
       name: item.name,
       date: item?.createdAt,
+      imageUrl: item?.imageUrl,
       subCategories: item.subCategories?.map((subItem) => ({
         name: subItem.name,
       })),
+      subCategoriesQuanitity: item?.subCategories.length,
     };
   });
 };
@@ -28,6 +32,7 @@ const getCategoryAndSubCategoriesDto = (data) => {
 const categoryDto = (data) => {
   return {
     id: data?.id,
+    imageUrl: data?.imageUrl,
     name: data?.name,
     date: data?.createdAt,
   };

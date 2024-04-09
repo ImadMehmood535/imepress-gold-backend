@@ -30,7 +30,7 @@ const registerCateogry = async (req, res) => {
 
     category = await prisma.category.create({
       data: {
-        name,
+        ...req.body,
       },
     });
     const response = okResponse(
@@ -46,7 +46,13 @@ const registerCateogry = async (req, res) => {
 
 const getCategory = async (req, res) => {
   try {
-    let category = await prisma.category.findMany({});
+    let category = await prisma.category.findMany({
+      include: {
+        _count: {
+          select: { subCategories: true },
+        },
+      },
+    });
 
     const response = okResponse(
       getCategoryDto(category),
@@ -80,7 +86,7 @@ const updateCategory = async (req, res) => {
         id: Number(id),
       },
       data: {
-        name,
+        ...req.body,
       },
     });
 
@@ -145,8 +151,6 @@ const categoriesAndSubCategories = async (req, res) => {
       const response = notFound("Not Found");
       return res.status(response.status.code).json(response);
     }
-
-    console.log(data[0]?.subCategories)
 
     const response = okResponse(
       getCategoryAndSubCategoriesDto(data),
