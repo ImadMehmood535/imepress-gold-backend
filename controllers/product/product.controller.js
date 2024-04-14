@@ -10,6 +10,7 @@ const {
 const { productDto, getProductsDto } = require("../../dto/product.dto");
 
 const registerProduct = async (req, res) => {
+  console.log(req.body);
   try {
     const { name } = req.body;
 
@@ -129,6 +130,8 @@ const getProductsByCategory = async (req, res) => {
 };
 
 const updateProduct = async (req, res) => {
+  console.log(req.body);
+
   try {
     const { id } = req.params;
 

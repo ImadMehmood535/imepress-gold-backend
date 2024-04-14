@@ -23,6 +23,7 @@ const getCategoryAndSubCategoriesDto = (data) => {
       imageUrl: item?.imageUrl,
       subCategories: item.subCategories?.map((subItem) => ({
         name: subItem.name,
+        id: subItem.id,
       })),
       subCategoriesQuanitity: item?.subCategories.length,
     };

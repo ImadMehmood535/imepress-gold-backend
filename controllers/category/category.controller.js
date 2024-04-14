@@ -58,8 +58,10 @@ const getCategory = async (req, res) => {
       getCategoryDto(category),
       "Successfully fetched categories"
     );
+
     return res.status(response.status.code).json(response);
   } catch (error) {
+    console.log(error);
     const response = serverErrorResponse(error.message);
     return res.status(response.status.code).json(response);
   }
@@ -132,6 +134,7 @@ const deleteCategory = async (req, res) => {
     const response = notFound("Not Found");
     return res.status(response.status.code).json(response);
   } catch (error) {
+    console.log(error);
     const response = serverErrorResponse(error.message);
     return res.status(response.status.code).json(response);
   }
@@ -142,7 +145,7 @@ const categoriesAndSubCategories = async (req, res) => {
     let data = await prisma.category.findMany({
       include: {
         subCategories: {
-          select: { name: true },
+          select: { name: true , id:true },
         },
       },
     });
@@ -158,6 +161,7 @@ const categoriesAndSubCategories = async (req, res) => {
     );
     return res.status(response.status.code).json(response);
   } catch (error) {
+    console.log(error);
     const response = serverErrorResponse(error.message);
     return res.status(response.status.code).json(response);
   }

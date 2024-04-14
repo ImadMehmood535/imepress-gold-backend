@@ -29,23 +29,24 @@ model User {
 }
 
 model Product {
-  id            Int          @id @default(autoincrement())
-  name          String       @db.VarChar(255)
-  price         Float
-  isFeatured    Boolean?     @default(false)
-  isSale        Boolean?     @default(false)
-  discount      Int?         @default(0)
-  isNew         Boolean?     @default(false)
-  slug          String?
-  description   String       @db.LongText
-  createdAt     DateTime     @default(now()) @db.Timestamp(0)
-  updatedAt     DateTime?    @updatedAt
-  subCategory   subCategory? @relation(fields: [subCategoryId], references: [id])
-  subCategoryId Int?
-  products      orderItem[]
-  imageUrl      String?
-  brand         Brand?       @relation(fields: [brandId], references: [id])
-  brandId       Int?
+  id               Int          @id @default(autoincrement())
+  name             String       @db.VarChar(255)
+  price            Float
+  isFeatured       Boolean?     @default(false)
+  isSale           Boolean?     @default(false)
+  discount         Int?         @default(0)
+  isNew            Boolean?     @default(false)
+  slug             String?
+  description      String       @db.LongText
+  shortDescription String?      @db.LongText
+  createdAt        DateTime     @default(now()) @db.Timestamp(0)
+  updatedAt        DateTime?    @updatedAt
+  subCategory      subCategory? @relation(fields: [subCategoryId], references: [id])
+  subCategoryId    Int?
+  products         orderItem[]
+  imageUrl         String?
+  brand            Brand?       @relation(fields: [brandId], references: [id])
+  brandId          Int?
 }
 
 model Category {
@@ -106,4 +107,11 @@ model Blog {
   description       String    @db.LongText
   createdAt         DateTime  @default(now()) @db.Timestamp(0)
   updatedAt         DateTime? @updatedAt
+}
+
+model NewsLetter {
+  id        Int       @id @default(autoincrement())
+  email     String
+  createdAt DateTime  @default(now()) @db.Timestamp(0)
+  updatedAt DateTime? @updatedAt
 }
