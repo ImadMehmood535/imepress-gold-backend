@@ -12,6 +12,7 @@ const orderRoutes = require("./order");
 const brandRoutes = require("./brand");
 const blogRoutes = require("./blog");
 const newsLetterRoutes = require("./newsletter");
+const currencyRoutes = require("./currency");
 
 router.post("/upload", uploadMiddleware, uploadImage);
 router.use("/admin", adminRoutes);
@@ -23,5 +24,6 @@ router.use("/order", orderRoutes);
 router.use("/brand", brandRoutes);
 router.use("/blog", blogRoutes);
 router.use("/newsletter", newsLetterRoutes);
+router.use("/currency" , currencyRoutes);
 
 module.exports = router;
