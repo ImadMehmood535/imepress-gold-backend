@@ -14,7 +14,7 @@ const {
   deleteCategory,
   categoriesAndSubCategories,
 } = require("../../controllers/category/category.controller");
-const verifyAuthentication = require("../../middlewares/Auth.middleware");
+const verifyAuthentication = require("../../middlewares/auth.middleware");
 const router = Router();
 
 router.post(

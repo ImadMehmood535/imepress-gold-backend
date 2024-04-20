@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const verifyAuthentication = require("../../middlewares/Auth.middleware");
+const verifyAuthentication = require("../../middlewares/auth.middleware");
 const {
   registerOrder,
   getOrders,

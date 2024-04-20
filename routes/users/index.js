@@ -17,7 +17,7 @@ const {
   passwordChangeUserSchema,
   updateUserbyAdminSchema,
 } = require("../../validations/user");
-const verifyAuthentication = require("../../middlewares/Auth.middleware");
+const verifyAuthentication = require("../../middlewares/auth.middleware");
 const router = Router();
 
 router.post("/", validateRequest(registerUserSchema), registerUser);

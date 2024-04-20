@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const validateRequest = require("../../middlewares/validateRequestJoi.middleware");
 
-const verifyAuthentication = require("../../middlewares/Auth.middleware");
+const verifyAuthentication = require("../../middlewares/auth.middleware");
 const {
   registerSchema,
   updateSchema,

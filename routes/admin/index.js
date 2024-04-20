@@ -12,7 +12,7 @@ const {
   logInSchema,
   passwordChangeUserSchema,
 } = require("../../validations/admin");
-const verifyAuthentication = require("../../middlewares/Auth.middleware");
+const verifyAuthentication = require("../../middlewares/auth.middleware");
 const router = Router();
 
 router.post("/", validateRequest(registerSchema), registerAdmin);
